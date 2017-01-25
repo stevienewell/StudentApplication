@@ -4,9 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using SA.Data.DataContexts;
+using SA.Data.Interfaces;
+using SA.Data.Repositories;
 
 namespace StudentApplication
 {
@@ -29,6 +33,9 @@ namespace StudentApplication
         {
             // Add framework services.
             services.AddMvc();
+            services.AddDbContext<StudentContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddTransient<IStudentRepository, StudentRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,7 +60,7 @@ namespace StudentApplication
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Student}/{action=Index}/{id?}");
             });
         }
     }

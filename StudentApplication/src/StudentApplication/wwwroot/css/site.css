@@ -36,3 +36,7 @@ textarea {
     display: none
   }
 }
+
+.top-buffer {
+    margin-top:20px;
+}
